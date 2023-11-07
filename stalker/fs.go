@@ -2,9 +2,9 @@ package stalker
 
 import (
 	"errors"
-	"io/ioutil"
 	"log"
 	"math/rand"
+	"os"
 	"regexp"
 	"strings"
 
@@ -42,7 +42,7 @@ type Portal struct {
 
 // ReadConfig returns configuration from the file in Portal object
 func ReadConfig(path *string) (*Config, error) {
-	content, err := ioutil.ReadFile(*path)
+	content, err := os.ReadFile(*path)
 	if err != nil {
 		return nil, err
 	}

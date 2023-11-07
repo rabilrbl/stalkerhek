@@ -3,7 +3,7 @@ package stalker
 import (
 	"encoding/json"
 	"errors"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 )
@@ -31,7 +31,7 @@ func (p *Portal) handshake() error {
 	}
 	defer resp.Body.Close()
 
-	contents, err := ioutil.ReadAll(resp.Body)
+	contents, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}

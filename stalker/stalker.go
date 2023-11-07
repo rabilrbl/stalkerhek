@@ -2,7 +2,7 @@ package stalker
 
 import (
 	"errors"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -65,7 +65,7 @@ func (p *Portal) httpRequest(link string) ([]byte, error) {
 		return nil, errors.New("Site '" + link + "' returned " + resp.Status)
 	}
 
-	contents, err := ioutil.ReadAll(resp.Body)
+	contents, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

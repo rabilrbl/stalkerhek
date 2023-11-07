@@ -2,7 +2,7 @@ package hls
 
 import (
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -17,7 +17,7 @@ func download(link string) (content []byte, contentType string, err error) {
 		return nil, "", err
 	}
 	defer resp.Body.Close()
-	content, err = ioutil.ReadAll(resp.Body)
+	content, err = io.ReadAll(resp.Body)
 	return content, resp.Header.Get("Content-Type"), err
 }
 
