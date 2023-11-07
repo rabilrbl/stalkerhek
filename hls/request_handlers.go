@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 )
 
 // Handles '/iptv' requests
@@ -43,6 +44,12 @@ func channelHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if os.Getenv("REDIRECT_CHANNEL_LINKS") == "true" {
+		cr.ChannelRef.Mux.Unlock()
+		http.Redirect(w, r, cr.ChannelRef.Link, http.StatusFound)
+		return
+	}
+	
 	// Handle content
 	handleContent(cr)
 }
