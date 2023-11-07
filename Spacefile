@@ -15,6 +15,6 @@ micros:
       env:
         - name: MAC
           description: Stalker Portal MAC Address
-        - name: URL
-          description: Stalker Portal URL
+        - name: HOST
+          description: Stalker Portal HOST URL
           
