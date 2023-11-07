@@ -4,10 +4,8 @@ import (
 	"flag"
 	"log"
 	"os"
-	"sync"
 
 	"github.com/rabilrbl/stalkerhek/hls"
-	"github.com/rabilrbl/stalkerhek/proxy"
 	"github.com/rabilrbl/stalkerhek/stalker"
 )
 
