@@ -37,6 +37,15 @@ func main() {
 				Enabled: true,
 				Bind:    ":" + os.Getenv("PORT"),
 			},
+			Proxy: struct {
+				Enabled bool   `yaml:"enabled"`
+				Bind    string `yaml:"bind"`
+				Rewrite bool   `yaml:"rewrite"`
+			}{
+				Enabled: false,
+				Bind:    "",
+				Rewrite: true,
+			},
 		}
 	} else {
 		// Load configuration from file into Portal struct
@@ -64,28 +73,28 @@ func main() {
 
 	if c.HLS.Enabled && c.Proxy.Enabled {
 		var wg sync.WaitGroup
-		
+
 		if c.HLS.Enabled {
 			wg.Add(1)
 			go func() {
 				log.Println("Starting HLS service...")
 				hls.Start(channels, c.HLS.Bind)
 				wg.Done()
-				}()
-			}
-			
-			if c.Proxy.Enabled {
-				wg.Add(1)
-				go func() {
-					log.Println("Starting proxy service...")
-					proxy.Start(c, channels)
-					wg.Done()
 			}()
 		}
-		
+
+		if c.Proxy.Enabled {
+			wg.Add(1)
+			go func() {
+				log.Println("Starting proxy service...")
+				proxy.Start(c, channels)
+				wg.Done()
+			}()
+		}
+
 		wg.Wait()
 	}
-	
+
 	// for deta serverless config
 	log.Println("Starting HLS service...")
 	hls.Start(channels, c.HLS.Bind)
