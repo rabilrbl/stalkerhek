@@ -9,7 +9,10 @@ import (
 
 // Handles '/iptv' requests
 func playlistHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "audio/x-mpegurl; charset=utf-8")
+	// Content-Type for m3u playlist
+	w.Header().Set("Content-Type", "application/vnd.apple.mpegurl")
+	// Set file name
+	w.Header().Set("Content-Disposition", "attachment; filename=\"playlist_"+r.Host+".m3u\"")
 	w.WriteHeader(http.StatusOK)
 
 	fmt.Fprintln(w, "#EXTM3U")
