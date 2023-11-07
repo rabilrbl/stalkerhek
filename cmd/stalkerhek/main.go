@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 	"sync"
 
 	"github.com/rabilrbl/stalkerhek/hls"
@@ -18,10 +19,23 @@ func main() {
 
 	flag.Parse()
 
-	// Load configuration from file into Portal struct
-	c, err := stalker.ReadConfig(flagConfig)
-	if err != nil {
-		log.Fatalln(err)
+	var c *stalker.Config
+	var  err error
+
+	// If MAC and HOST are provided as environment variables, use them
+	if os.Getenv("MAC") != "" && os.Getenv("HOST") != "" {
+		c = &stalker.Config{
+			Portal: &stalker.Portal{
+				MAC:          os.Getenv("MAC"),
+				Location:    os.Getenv("HOST"),
+			},
+		}
+	} else {
+		// Load configuration from file into Portal struct
+		c, err = stalker.ReadConfig(flagConfig)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 
 	// Authenticate (connect) to Stalker portal and keep-alive it's connection.
