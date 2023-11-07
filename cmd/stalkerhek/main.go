@@ -45,6 +45,7 @@ func main() {
 			},
 		}
 	} else {
+		log.Println("Using configuration file...")
 		// Load configuration from file into Portal struct
 		c, err = stalker.ReadConfig(flagConfig)
 		if err != nil {
