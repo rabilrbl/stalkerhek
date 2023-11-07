@@ -45,7 +45,6 @@ func main() {
 			log.Fatalln(err)
 		}
 	}
-	log.Println(c.Proxy.Enabled)
 
 	// Authenticate (connect) to Stalker portal and keep-alive it's connection.
 	log.Println("Connecting to Stalker middleware...")
