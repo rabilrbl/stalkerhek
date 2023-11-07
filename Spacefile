@@ -1,0 +1,20 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+  - name: stalkerhek
+    src: ./
+    public: true
+    engine: custom
+    primary: true
+    commands:
+      - go build -o server ./cmd/stalkerhek
+    include:
+      - server
+    run: ./server
+    presets:
+      env:
+        - name: MAC
+          description: Stalker Portal MAC Address
+        - name: URL
+          description: Stalker Portal URL
+          
