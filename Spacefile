@@ -17,4 +17,7 @@ micros:
           description: Stalker Portal MAC Address
         - name: HOST
           description: Stalker Portal HOST URL
+        - name: REDIRECT_CHANNEL_LINKS
+          description: Redirect Channel Links. Must be true on serverless platforms.
+          default: "true"
           
