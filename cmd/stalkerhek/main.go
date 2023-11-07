@@ -27,8 +27,14 @@ func main() {
 		log.Println("Using environment variables for configuration...")
 		c = &stalker.Config{
 			Portal: &stalker.Portal{
-				MAC:      os.Getenv("MAC"),
-				Location: os.Getenv("HOST"),
+				Model:        "MAG254",
+				SerialNumber: "0000000000000",
+				DeviceID:     "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+				DeviceID2:    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+				Signature:    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+				MAC:          os.Getenv("MAC"),
+				Location:     os.Getenv("HOST"),
+				TimeZone:     "Asia/Kolkata",
 			},
 			HLS: struct {
 				Enabled bool   `yaml:"enabled"`
