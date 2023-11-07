@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 )
 
 // Handles '/iptv' requests
@@ -75,6 +76,10 @@ func logoHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Retrieve from Stalker middleware if no cache is present
 	if len(cr.ChannelRef.Logo.Cache) == 0 {
+		logo_link := strings.Split(cr.ChannelRef.Logo.Link, "http")
+		if len(logo_link) > 2 {
+			cr.ChannelRef.Logo.Link = "http" + logo_link[2]
+		}
 		img, contentType, err := download(cr.ChannelRef.Logo.Link)
 		if err != nil {
 			cr.ChannelRef.Logo.Mux.Unlock()
