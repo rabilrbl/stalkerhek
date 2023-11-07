@@ -64,7 +64,7 @@ func main() {
 	}
 
 	// for deta serverless config
-	if c.Proxy.Enabled && !c.Proxy.Enabled {
+	if c.HLS.Enabled && !c.Proxy.Enabled {
 		log.Println("Starting HLS service...")
 		hls.Start(channels, c.HLS.Bind)
 	} else {
