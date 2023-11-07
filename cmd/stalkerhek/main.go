@@ -62,32 +62,31 @@ func main() {
 		log.Fatalln("no IPTV channels retrieved from Stalker middleware. quitting...")
 	}
 
-	// for deta serverless config
-	if c.HLS.Enabled && !c.Proxy.Enabled {
-		log.Println("Starting HLS service...")
-		hls.Start(channels, c.HLS.Bind)
-	} else {
+	if c.HLS.Enabled && c.Proxy.Enabled {
 		var wg sync.WaitGroup
-	
+		
 		if c.HLS.Enabled {
 			wg.Add(1)
 			go func() {
 				log.Println("Starting HLS service...")
 				hls.Start(channels, c.HLS.Bind)
 				wg.Done()
+				}()
+			}
+			
+			if c.Proxy.Enabled {
+				wg.Add(1)
+				go func() {
+					log.Println("Starting proxy service...")
+					proxy.Start(c, channels)
+					wg.Done()
 			}()
 		}
-	
-		if c.Proxy.Enabled {
-			wg.Add(1)
-			go func() {
-				log.Println("Starting proxy service...")
-				proxy.Start(c, channels)
-				wg.Done()
-			}()
-		}
-	
+		
 		wg.Wait()
 	}
-
+	
+	// for deta serverless config
+	log.Println("Starting HLS service...")
+	hls.Start(channels, c.HLS.Bind)
 }
