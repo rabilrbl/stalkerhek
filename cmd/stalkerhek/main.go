@@ -15,6 +15,8 @@ func main() {
 	// Change flags on the default logger, so it print's line numbers as well.
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
+	log.Println("Starting stalkerhek...")
+
 	flag.Parse()
 
 	var c *stalker.Config
