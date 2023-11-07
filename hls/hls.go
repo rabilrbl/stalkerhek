@@ -6,7 +6,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/erkexzcx/stalkerhek/stalker"
+	"github.com/rabilrbl/stalkerhek/stalker"
 )
 
 var playlist map[string]*Channel

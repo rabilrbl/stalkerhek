@@ -5,9 +5,9 @@ import (
 	"log"
 	"sync"
 
-	"github.com/erkexzcx/stalkerhek/hls"
-	"github.com/erkexzcx/stalkerhek/proxy"
-	"github.com/erkexzcx/stalkerhek/stalker"
+	"github.com/rabilrbl/stalkerhek/hls"
+	"github.com/rabilrbl/stalkerhek/proxy"
+	"github.com/rabilrbl/stalkerhek/stalker"
 )
 
 var flagConfig = flag.String("config", "stalkerhek.yml", "path to the config file")
