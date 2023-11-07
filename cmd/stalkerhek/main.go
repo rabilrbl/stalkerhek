@@ -45,6 +45,7 @@ func main() {
 			log.Fatalln(err)
 		}
 	}
+	log.Println(c.Proxy.Enabled)
 
 	// Authenticate (connect) to Stalker portal and keep-alive it's connection.
 	log.Println("Connecting to Stalker middleware...")
@@ -62,25 +63,32 @@ func main() {
 		log.Fatalln("no IPTV channels retrieved from Stalker middleware. quitting...")
 	}
 
-	var wg sync.WaitGroup
-
-	if c.HLS.Enabled {
-		wg.Add(1)
-		go func() {
-			log.Println("Starting HLS service...")
-			hls.Start(channels, c.HLS.Bind)
-			wg.Done()
-		}()
+	// for deta serverless config
+	if c.Proxy.Enabled && !c.Proxy.Enabled {
+		log.Println("Starting HLS service...")
+		hls.Start(channels, c.HLS.Bind)
+	} else {
+		var wg sync.WaitGroup
+	
+		if c.HLS.Enabled {
+			wg.Add(1)
+			go func() {
+				log.Println("Starting HLS service...")
+				hls.Start(channels, c.HLS.Bind)
+				wg.Done()
+			}()
+		}
+	
+		if c.Proxy.Enabled {
+			wg.Add(1)
+			go func() {
+				log.Println("Starting proxy service...")
+				proxy.Start(c, channels)
+				wg.Done()
+			}()
+		}
+	
+		wg.Wait()
 	}
 
-	if c.Proxy.Enabled {
-		wg.Add(1)
-		go func() {
-			log.Println("Starting proxy service...")
-			proxy.Start(c, channels)
-			wg.Done()
-		}()
-	}
-
-	wg.Wait()
 }
