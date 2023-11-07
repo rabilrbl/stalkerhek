@@ -15,11 +15,19 @@ func playlistHandler(w http.ResponseWriter, r *http.Request) {
 	// Set file name
 	w.Header().Set("Content-Disposition", "attachment; filename=\"playlist_"+r.Host+".m3u\"")
 	w.WriteHeader(http.StatusOK)
+	
+	var schema string
+	if r.TLS == nil {
+		schema = "http"
+	} else {
+		schema = "https"
+	}
+	host_url := schema + "://" + r.Host
 
 	fmt.Fprintln(w, "#EXTM3U")
 	for _, title := range sortedChannels {
-		link := "/iptv/" + url.PathEscape(title)
-		logo := "/logo/" + url.PathEscape(title)
+		link := host_url + "/iptv/" + url.PathEscape(title)
+		logo := host_url + "/logo/" + url.PathEscape(title)
 
 		fmt.Fprintf(w, "#EXTINF:-1 tvg-logo=\"%s\" group-title=\"%s\", %s\n%s\n", logo, playlist[title].Genre, title, link)
 	}
@@ -49,7 +57,7 @@ func channelHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, cr.ChannelRef.Link, http.StatusFound)
 		return
 	}
-	
+
 	// Handle content
 	handleContent(cr)
 }
