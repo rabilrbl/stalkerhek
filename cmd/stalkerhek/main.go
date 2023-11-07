@@ -20,14 +20,21 @@ func main() {
 	flag.Parse()
 
 	var c *stalker.Config
-	var  err error
+	var err error
 
 	// If MAC and HOST are provided as environment variables, use them
 	if os.Getenv("MAC") != "" && os.Getenv("HOST") != "" {
 		c = &stalker.Config{
 			Portal: &stalker.Portal{
-				MAC:          os.Getenv("MAC"),
-				Location:    os.Getenv("HOST"),
+				MAC:      os.Getenv("MAC"),
+				Location: os.Getenv("HOST"),
+			},
+			HLS: struct {
+				Enabled bool   `yaml:"enabled"`
+				Bind    string `yaml:"bind"`
+			}{
+				Enabled: true,
+				Bind:    ":" + os.Getenv("PORT"),
 			},
 		}
 	} else {
