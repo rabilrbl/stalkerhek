@@ -23,7 +23,8 @@ func main() {
 	var err error
 
 	// If MAC and HOST are provided as environment variables, use them
-	if os.Getenv("MAC") != "" && os.Getenv("HOST") != "" {
+	if os.Getenv("MAC") != "" && os.Getenv("HOST") != "" && os.Getenv("PORT") != "" {
+		log.Println("Using environment variables for configuration...")
 		c = &stalker.Config{
 			Portal: &stalker.Portal{
 				MAC:      os.Getenv("MAC"),
